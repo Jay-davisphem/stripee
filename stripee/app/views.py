@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
@@ -15,7 +16,7 @@ class CreateCheckoutSessionView(View):
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': price.stripe_price_id,
+                    'price': price.price_id,
                     'quantity': 1,
                 },
             ],
@@ -25,3 +26,11 @@ class CreateCheckoutSessionView(View):
         )
 
         return redirect(checkout_session.url)
+
+
+class SuccessView(TemplateView):
+    template_name = "success.html"
+
+
+class CancelView(TemplateView):
+    template_name = "cancel.html"
